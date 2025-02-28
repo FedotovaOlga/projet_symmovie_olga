@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FilmRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,17 @@ class Film
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $genre = null;
+
+    /**
+     * @var Collection<int, Favori>
+     */
+    #[ORM\OneToMany(targetEntity: Favori::class, mappedBy: 'film')]
+    private Collection $favoris;
+
+    public function __construct()
+    {
+        $this->favoris = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +103,36 @@ class Film
     public function setGenre(?string $genre): static
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favori>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favori $favori): static
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->setFilm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favori $favori): static
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getFilm() === $this) {
+                $favori->setFilm(null);
+            }
+        }
 
         return $this;
     }
