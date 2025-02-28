@@ -20,6 +20,10 @@
 		{% endblock %}
 	</head>
 	<body>
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			{{ include('shared/_menu.html.twig') }}
+		<div>Bonjour {{ app.user.prenom }} !</div>
+		{% endif %}
 		{% block body %}{% endblock %}
 	</body>
 </html>
