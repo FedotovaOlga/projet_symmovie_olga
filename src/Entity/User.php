@@ -42,7 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Favori>
      */
-    #[ORM\OneToMany(targetEntity: Favori::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Favori::class, mappedBy: 'user', cascade: ["persist", "remove"])]
     private Collection $favoris;
 
     public function __construct()

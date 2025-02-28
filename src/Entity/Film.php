@@ -34,7 +34,7 @@ class Film
     /**
      * @var Collection<int, Favori>
      */
-    #[ORM\OneToMany(targetEntity: Favori::class, mappedBy: 'film')]
+    #[ORM\OneToMany(targetEntity: Favori::class, mappedBy: 'film', cascade: ["persist", "remove"])]
     private Collection $favoris;
 
     public function __construct()

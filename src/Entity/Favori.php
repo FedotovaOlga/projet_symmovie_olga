@@ -18,9 +18,11 @@ class Favori
     private ?\DateTimeInterface $dateAjout = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
     private ?Film $film = null;
 
     public function getId(): ?int
